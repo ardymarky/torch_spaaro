@@ -152,5 +152,15 @@ end
 % double_integrator_sim();
 
 
+
+%%auto autocode
+load_system('torch_vms');
+cs = getActiveConfigSet('torch_vms');
+set_param(cs, 'Toolchain', 'Microsoft Visual C++ 2022 v17.0 | nmake (64-bit Windows)'); % Adjust toolchain as needed
+set_param('torch_vms', 'GenerateReport', 'off');
+set_param('torch_vms', 'GenCodeOnly', 'on'); 
+slbuild('torch_vms');
+
+
 %% Cleanup
 clear vehicle fh_vehicle op_point op_report op_spec opt i;
