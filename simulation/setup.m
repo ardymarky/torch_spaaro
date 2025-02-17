@@ -136,8 +136,10 @@ if (vms_only)
         % malt()
     elseif strcmp(vehicle,'lambu')
         % lambu_test_angle();
-        % lambu()
-        torch_telem();
+
+        % lambu_mot_test();
+        % torch_arm_telem();
+        torch_3dof_arm();
     elseif strcmp(vehicle,'super')
         super()
     end
