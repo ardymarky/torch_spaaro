@@ -139,7 +139,7 @@ if (vms_only)
 
         % lambu_mot_test();
         % torch_arm_telem();
-        torch_3dof_angle();
+        torch_angle_we();
     elseif strcmp(vehicle,'super')
         super()
     end
@@ -156,7 +156,7 @@ end
 
 
 
-%%auto autocode
+%auto autocode
 load_system('torch_angle_we');
 cs = getActiveConfigSet('torch_angle_we');
 set_param(cs, 'Toolchain', 'Microsoft Visual C++ 2022 v17.0 | nmake (64-bit Windows)'); % Adjust toolchain as needed
