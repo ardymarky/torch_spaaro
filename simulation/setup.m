@@ -139,7 +139,7 @@ if (vms_only)
 
         % lambu_mot_test();
         % torch_arm_telem();
-        torch_3dof_angle();
+        torch_3dof_pos();
     elseif strcmp(vehicle,'super')
         super()
     end
