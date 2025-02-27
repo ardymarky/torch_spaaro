@@ -68,7 +68,7 @@ elseif strcmpi(fmu_version, "MINI")
     Telem.NUM_FLIGHT_PLAN_POINTS = 500;
     Telem.NUM_FENCE_POINTS = 100;
     Telem.NUM_RALLY_POINTS = 10;
-    load('./data/fmu_mini_bus_defs.mat');
+    load('./data/fmu_mini_bus_defs_wercf.mat');
 else
     Fmu.version = 1;
     Fmu.NUM_AIN = 2;
@@ -139,6 +139,7 @@ if (vms_only)
 
         % lambu_mot_test();
         % torch_arm_telem();
+        torch_angle_we();
         torch_3dof_pos();
     elseif strcmp(vehicle,'super')
         super()
@@ -153,6 +154,16 @@ else
     end
 end
 % double_integrator_sim();
+
+
+
+%auto autocode
+load_system('torch_angle_we');
+cs = getActiveConfigSet('torch_angle_we');
+set_param(cs, 'Toolchain', 'Microsoft Visual C++ 2022 v17.0 | nmake (64-bit Windows)'); % Adjust toolchain as needed
+set_param('torch_angle_we', 'GenerateReport', 'off');
+set_param('torch_angle_we', 'GenCodeOnly', 'on'); 
+slbuild('torch_angle_we');
 
 
 %% Cleanup
