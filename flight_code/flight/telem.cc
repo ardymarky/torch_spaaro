@@ -154,8 +154,8 @@ void TelemInit(const TelemConfig &cfg, TelemData * const ptr) {
       MsgInfo("done.\n");
     } else {
       /* Copy parameter data to global defs */
-      memcpy(ptr->param.data(), param_buf + sizeof(PARAM_STORE_HEADER),
-             NUM_TELEM_PARAMS * sizeof(float));
+      // memcpy(ptr->param.data(), param_buf + sizeof(PARAM_STORE_HEADER),
+      //        NUM_TELEM_PARAMS * sizeof(float));
       /* Update the parameter values in MAV Link */
       telem_.params(ptr->param);
     }

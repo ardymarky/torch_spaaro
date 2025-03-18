@@ -45,30 +45,14 @@ run(strcat('./aircraft/', vehicle));
 
 %% Setup FMU
 %% Setup the flight management unit
-if strcmpi(fmu_version, "V2")
-    Fmu.version = 3;
-    Fmu.NUM_AIN = 8;
-    frameRate_hz = 100;
-    Telem.NUM_FLIGHT_PLAN_POINTS = 500;
-    Telem.NUM_FENCE_POINTS = 100;
-    Telem.NUM_RALLY_POINTS = 10;
-    load('./data/fmu_v2_bus_defs.mat');
-elseif strcmpi(fmu_version, "V2-BETA")
-    Fmu.version = 2;
-    Fmu.NUM_AIN = 8;
-    frameRate_hz = 100;
-    Telem.NUM_FLIGHT_PLAN_POINTS = 500;
-    Telem.NUM_FENCE_POINTS = 100;
-    Telem.NUM_RALLY_POINTS = 10;
-    load('./data/fmu_v2_beta_bus_defs.mat');
-elseif strcmpi(fmu_version, "MINI")
+if strcmpi(fmu_version, "MINI")
     Fmu.version = 4;
     Fmu.NUM_AIN = 8;
     frameRate_hz = 200;
     Telem.NUM_FLIGHT_PLAN_POINTS = 500;
     Telem.NUM_FENCE_POINTS = 100;
     Telem.NUM_RALLY_POINTS = 10;
-    load('./data/fmu_mini_bus_defs.mat');
+    load('./data/fmu_mini_bus_defs_wearf.mat');
 else
     Fmu.version = 1;
     Fmu.NUM_AIN = 2;
@@ -124,24 +108,15 @@ for i = 1:Telem.NUM_RALLY_POINTS
     Telem.Rally(i).z = single(0);
 end
 
-
-%% Setup configuration set
-if(strcmp(vehicle, 'ale'))
-    ale_config = ale_model_confg();
-end
 %% Select sim
 if (vms_only)
-    if strcmp(vehicle,'malt')
-        malt_mot_test();
-        % malt()
-    elseif strcmp(vehicle,'lambu')
-        % lambu_test_angle();
+    if strcmp(vehicle,'lambu')
+        lambu();
 
-        % lambu_mot_test();
-        % torch_arm_telem();
-        torch_3dof_angle();
-    elseif strcmp(vehicle,'super')
-        super()
+    elseif strcmp(vehicle,'torch')
+
+        % torch_pos_with_sensors_tuning(); % Change this
+
     end
 else
     if any(strcmp(vehicle, {'super', 'malt', 'lambu'}))
@@ -153,6 +128,17 @@ else
     end
 end
 % double_integrator_sim();
+
+
+
+%auto autocode
+vms_file = 'torch_pos_with_sensors_tuning';
+load_system(vms_file);
+cs = getActiveConfigSet(vms_file);
+set_param(cs, 'Toolchain', 'MinGW64 | gmake (64-bit Windows)'); % Adjust toolchain as needed
+set_param(vms_file, 'GenerateReport', 'off');
+set_param(vms_file, 'GenCodeOnly', 'on'); 
+slbuild(vms_file);
 
 
 %% Cleanup
