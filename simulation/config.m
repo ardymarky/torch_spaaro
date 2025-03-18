@@ -12,15 +12,11 @@
 % vehicle = 'malt';
 % vehicle = 'session_v0';
 % vehicle = 'super';
-vehicle = 'lambu';
+vehicle = 'torch';
 
 % FMU-R version
-if strcmpi(vehicle, 'malt') || strcmpi(vehicle, 'lambu')
+if strcmpi(vehicle, 'malt') || strcmpi(vehicle, 'lambu') || strcmpi(vehicle, 'torch')
     fmu_version = "mini";
-elseif strcmpi(vehicle, 'ale')
-    fmu_version = "v1";
-elseif any(strcmpi(vehicle, {'session_v0', 'super'}))
-    fmu_version = "v2";
 else
     ME = MException("UASpaaro:noSuchVehicle", sprintf("No vehicle %s", vehicle));
     throw(ME);

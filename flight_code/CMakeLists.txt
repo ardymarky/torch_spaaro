@@ -26,23 +26,12 @@ if (FMU STREQUAL "MINI-V1")
   add_definitions(
     -D__FMU_R_MINI_V1__
   )
-elseif (FMU STREQUAL "V2")
-  # FMU-R-V2
-  set(MCU IMXRT1062_T41)
-  add_definitions(
-    -D__FMU_R_V2__
-  )
-elseif(FMU STREQUAL "V2-BETA")
-  # FMU-R-V2-BETA
-  set(MCU IMXRT1062_T41)
-  add_definitions(
-    -D__FMU_R_V2_BETA__
-  )
+
 else()
-  # FMU-R-V1
-  set(MCU MK66FX1M0)
+  # FMU-R-mini
+  set(MCU IMXRT1062_MMOD)
   add_definitions(
-    -D__FMU_R_V1__
+    -D__FMU_R_MINI_V1__
   )
 endif()
 
@@ -55,16 +44,7 @@ endif()
 if (DEFINED VEHICLE)
 	string(TOUPPER ${VEHICLE} VEHICLE)
 endif()
-if (VEHICLE STREQUAL "ALE")
-	message("Using ALE config.cc")
-	set(CONFIG_CC config_ale.cc)
-elseif (VEHICLE STREQUAL "MALT")
-	message("Using MALT config.cc")
-	set(CONFIG_CC config_malt.cc)
-elseif (VEHICLE STREQUAL "SUPER")
-	message("Using SUPER config.cc")
-	set(CONFIG_CC config_super.cc)
-elseif (VEHICLE STREQUAL "LAMBU")
+if (VEHICLE STREQUAL "TORCH")
   message("Using LAMBU config.cc")
 	set(CONFIG_CC config_lambu.cc)
 else()
