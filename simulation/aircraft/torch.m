@@ -184,8 +184,8 @@ Aircraft.Control.motor_spin_max = 0.95;
 Aircraft.Control.att_rate_max = deg2rad(220);
 
 % Att rate controller PID gains
-Aircraft.Control.P_att_rate = 0.2;
-Aircraft.Control.I_att_rate = 0.5;
+Aircraft.Control.P_att_rate = 0.15;
+Aircraft.Control.I_att_rate = 0.1;
 Aircraft.Control.D_att_rate = 0.001;
 
 % Att rate D Controller LPFT cutoff frequency [Hz]
@@ -202,7 +202,7 @@ Aircraft.Control.P_heading = 6;
 Aircraft.Control.att_angle_lim = deg2rad(10);  
 
 % Att cmd controller gains
-Aircraft.Control.P_att_angle = 4;
+Aircraft.Control.P_att_angle = 5;
 Aircraft.Control.I_att_angle = 2;
 Aircraft.Control.D_att_angle = 0.1;
 
@@ -217,7 +217,7 @@ Aircraft.Control.min_g_thr = 0.1;
 Aircraft.Control.max_tilt_rad = deg2rad(10);
 
 %% Vertical speed controller parameters
-Aircraft.Control.est_hover_thr = 0.86;
+Aircraft.Control.est_hover_thr = 0.3;
 % Vertical speed limit [m/s]
 Aircraft.Control.v_z_max = 0.25;
 % Vertical speed controller gain

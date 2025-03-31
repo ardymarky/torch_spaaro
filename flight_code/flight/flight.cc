@@ -67,6 +67,8 @@ void run() {
   Serial.print(data.sensor.ercf.angle);
   Serial.print("\t");
   Serial.println(data.sensor.tfmini.range_cm);
+  Serial.print("\t");
+  Serial.println(data.sensor.tfmini2.range_cm);
 
   //std::string dbg = std::to_string((int)data.sensor.power_module.voltage_v * 100) + "\n";
   //MsgInfo(dbg.c_str());

@@ -52,7 +52,7 @@ if strcmpi(fmu_version, "MINI")
     Telem.NUM_FLIGHT_PLAN_POINTS = 500;
     Telem.NUM_FENCE_POINTS = 100;
     Telem.NUM_RALLY_POINTS = 10;
-    load('./data/fmu_mini_bus_defs_wearf.mat');
+    load('./data/fmu_mini_bus_all_sensors.mat');
 else
     Fmu.version = 1;
     Fmu.NUM_AIN = 2;
@@ -115,7 +115,8 @@ if (vms_only)
 
     elseif strcmp(vehicle,'torch')
 
-        % torch_pos_with_sensors_tuning(); % Change this
+        torch_pos_x_tuner(); % Change this
+        
 
     end
 else
@@ -132,13 +133,13 @@ end
 
 
 %auto autocode
-vms_file = 'torch_pos_with_sensors_tuning';
-load_system(vms_file);
-cs = getActiveConfigSet(vms_file);
-set_param(cs, 'Toolchain', 'MinGW64 | gmake (64-bit Windows)'); % Adjust toolchain as needed
-set_param(vms_file, 'GenerateReport', 'off');
-set_param(vms_file, 'GenCodeOnly', 'on'); 
-slbuild(vms_file);
+% vms_file = 'torch_pos_x_tuner';
+% load_system(vms_file);
+% cs = getActiveConfigSet(vms_file);
+% set_param(cs, 'Toolchain', 'MinGW64 | gmake (64-bit Windows)'); % Adjust toolchain as needed
+% set_param(vms_file, 'GenerateReport', 'off');
+% set_param(vms_file, 'GenCodeOnly', 'on'); 
+% slbuild(vms_file);
 
 
 %% Cleanup

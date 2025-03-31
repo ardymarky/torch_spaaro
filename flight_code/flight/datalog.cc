@@ -310,6 +310,15 @@ void DatalogAdd(const AircraftData &ref) {
   datalog_msg_.tfmini_range = Scale(float(ref.sensor.tfmini.range_cm), 0.0f, 1000.0f, 1.0f, 0.0f);
   #endif
 
+  #if defined(__FMU_R_V2__) || defined(__FMU_R_V2_BETA__) || \
+      defined(__FMU_R_MINI_V1__)
+  datalog_msg_.tfmini2_installed = ref.sensor.tfmini2.installed;
+  datalog_msg_.tfmini2_healthy = ref.sensor.tfmini2.healthy;
+  datalog_msg_.tfmini2_new_data = ref.sensor.tfmini2.new_data;
+  datalog_msg_.tfmini2_intensity = Scale(float(ref.sensor.tfmini2.range_intensity), 0.0f, 30000.0f, 1.0f, 0.0f);
+  datalog_msg_.tfmini2_range = Scale(float(ref.sensor.tfmini2.range_cm), 0.0f, 1000.0f, 1.0f, 0.0f);
+  #endif
+
     /* Wheel Encoder */
   #if defined(__FMU_R_V2__) || defined(__FMU_R_V2_BETA__) || \
       defined(__FMU_R_MINI_V1__)

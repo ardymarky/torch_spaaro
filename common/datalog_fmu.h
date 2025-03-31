@@ -216,6 +216,13 @@ struct DatalogMsg {
   uint64_t tfmini_range : 15;
   uint64_t tfmini_intensity : 15;
 
+  
+  uint64_t tfmini2_installed : 1;
+  uint64_t tfmini2_healthy : 1;
+  uint64_t tfmini2_new_data : 1;
+  uint64_t tfmini2_range : 15;
+  uint64_t tfmini2_intensity : 15;
+
   uint64_t ercf_installed : 1;
   uint64_t ercf_healthy : 1;
   uint64_t ercf_new_data : 1;
