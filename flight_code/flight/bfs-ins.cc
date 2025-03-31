@@ -39,6 +39,8 @@ static constexpr int8_t MIN_SAT_ = 7;
 ImuData *imu_;
 MagData *mag_;
 GnssData *gnss_;
+TFMiniData *tfmini_;
+TFMiniData *tfmini2_;
 bfs::Iir<float> ax_, ay_, az_, gx_, gy_, gz_, hx_, hy_, hz_;
 Eigen::Vector3f accel_mps2_, gyro_radps_, mag_ut_, ned_vel_, rel_pos_ned_;
 Eigen::Vector3d llh_;
@@ -50,8 +52,10 @@ uint8_t init_counter_ = 0;
 
 void BfsInsInit(const InsConfig &ref) {
   cfg_ = ref;
-  ekf_.gnss_pos_ne_std_m(0.2f);
-  ekf_.gnss_pos_d_std_m(0.2f);
+  ekf_.gnss_pos_ne_std_m(0.05f);
+  ekf_.gnss_pos_d_std_m(0.05f);
+  ekf_.gnss_vel_ne_std_mps(2.0f);
+  ekf_.gnss_vel_d_std_mps(2.0f);
   BASELINE_LEN_M = cfg_.antenna_baseline_m.norm();
 }
 
@@ -116,6 +120,8 @@ void BfsInsRun(SensorData &ref, InsData * const ptr) {
       case INS_GNSS_EXT_GNSS1: {
         if (ref.ext_gnss1.installed) {
           gnss_ = &ref.ext_gnss1;
+          tfmini_ = &ref.tfmini;
+          tfmini2_ = &ref.tfmini2;
         } else {
           MsgError("INS GNSS source set to ext GNSS1, which is not installed");
         }
@@ -138,8 +144,7 @@ void BfsInsRun(SensorData &ref, InsData * const ptr) {
     if ((BASELINE_LEN_M != 0) && (gnss_->fix < 5)){
       return;
     }
-    if ((imu_->new_data) && (mag_->new_data) && (gnss_->new_data) &&
-        (gnss_->num_sats > MIN_SAT_)) {
+    if ((imu_->new_data) && (mag_->new_data) && (tfmini_->new_data)) {
       // Wait for initial conditions to pass several time before initializing the filter. Just to make sure everything is stabile
       elapsedMillis t_ms;
       t_ms = 0;
@@ -156,9 +161,9 @@ void BfsInsRun(SensorData &ref, InsData * const ptr) {
       ned_vel_[0] = gnss_->ned_vel_mps[0];
       ned_vel_[1] = gnss_->ned_vel_mps[1];
       ned_vel_[2] = gnss_->ned_vel_mps[2];
-      llh_[0] = gnss_->lat_rad;
-      llh_[1] = gnss_->lon_rad;
-      llh_[2] = gnss_->alt_wgs84_m;
+      llh_[0] = float(tfmini_->range_cm) / 100 / 6378137;
+      llh_[1] = 0;
+      llh_[2] = float(tfmini2_->range_cm) / 100;
       rel_pos_ned_ [0] = float(gnss_->rel_pos_ned_m[0]);
       rel_pos_ned_ [1] = float(gnss_->rel_pos_ned_m[1]);
       rel_pos_ned_ [2] = float(gnss_->rel_pos_ned_m[2]);
@@ -186,13 +191,13 @@ void BfsInsRun(SensorData &ref, InsData * const ptr) {
       gyro_radps_[2] = imu_->gyro_radps[2];
       ekf_.TimeUpdate(accel_mps2_, gyro_radps_, FRAME_PERIOD_S);
     }
-    if (gnss_->new_data) {
+    if (tfmini_->new_data) {
       ned_vel_[0] = gnss_->ned_vel_mps[0];
       ned_vel_[1] = gnss_->ned_vel_mps[1];
       ned_vel_[2] = gnss_->ned_vel_mps[2];
-      llh_[0] = gnss_->lat_rad;
-      llh_[1] = gnss_->lon_rad;
-      llh_[2] = gnss_->alt_wgs84_m;
+      llh_[0] = float(tfmini_->range_cm) / 100 / 6378137;
+      llh_[1] = 0;
+      llh_[2] = float(tfmini2_->range_cm) / 100;
       rel_pos_ned_ [0] = float(gnss_->rel_pos_ned_m[0]);
       rel_pos_ned_ [1] = float(gnss_->rel_pos_ned_m[1]);
       rel_pos_ned_ [2] = float(gnss_->rel_pos_ned_m[2]);

@@ -216,6 +216,11 @@ std::vector<uint8_t> tfmini_healthy;
 std::vector<uint8_t> tfmini_new_data;
 std::vector<float> tfmini_intensity;
 std::vector<float> tfmini_range;
+std::vector<uint8_t> tfmini2_installed;
+std::vector<uint8_t> tfmini2_healthy;
+std::vector<uint8_t> tfmini2_new_data;
+std::vector<float> tfmini2_intensity;
+std::vector<float> tfmini2_range;
 std::vector<uint8_t> ercf_installed;
 std::vector<uint8_t> ercf_healthy;
 std::vector<uint8_t> ercf_new_data;
@@ -633,6 +638,12 @@ int main(int argc, char** argv) {
         tfmini_new_data.push_back(datalog_msg_.tfmini_new_data);
         tfmini_intensity.push_back(Scale(datalog_msg_.tfmini_intensity, 0.0f, 30000.0f, 1.0f, 0.0f));
         tfmini_range.push_back(Scale(datalog_msg_.tfmini_range, 0.0f, 1000.0f, 1.0f, 0.0f));
+        
+        tfmini2_installed.push_back(datalog_msg_.tfmini2_installed);
+        tfmini2_healthy.push_back(datalog_msg_.tfmini2_healthy);
+        tfmini2_new_data.push_back(datalog_msg_.tfmini2_new_data);
+        tfmini2_intensity.push_back(Scale(datalog_msg_.tfmini2_intensity, 0.0f, 30000.0f, 1.0f, 0.0f));
+        tfmini2_range.push_back(Scale(datalog_msg_.tfmini2_range, 0.0f, 1000.0f, 1.0f, 0.0f));
         
         ercf_installed.push_back(datalog_msg_.ercf_installed);
         ercf_healthy.push_back(datalog_msg_.ercf_healthy);
@@ -1097,6 +1108,12 @@ int main(int argc, char** argv) {
   bfs::MatWrite("tfmini_new_data", tfmini_new_data, output);
   bfs::MatWrite("tfmini_range", tfmini_range, output);
   bfs::MatWrite("tfmini_intensity", tfmini_intensity, output);
+  
+  bfs::MatWrite("tfmini2_installed", tfmini2_installed, output);
+  bfs::MatWrite("tfmini2_healthy", tfmini2_healthy, output);
+  bfs::MatWrite("tfmini2_new_data", tfmini2_new_data, output);
+  bfs::MatWrite("tfmini2_range", tfmini2_range, output);
+  bfs::MatWrite("tfmini2_intensity", tfmini2_intensity, output);
   
   bfs::MatWrite("ercf_installed", ercf_installed, output);
   bfs::MatWrite("ercf_healthy", ercf_healthy, output);

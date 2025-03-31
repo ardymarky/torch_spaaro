@@ -187,6 +187,7 @@ struct SensorConfig {
       defined(__FMU_R_MINI_V1__)
       
   TFMiniConfig tfmini;
+  TFMiniConfig tfmini2;
   ERCFConfig ercf;
   RadAltConfig rad_alt;
   #endif
@@ -478,6 +479,7 @@ struct SensorData {
   #if defined(__FMU_R_V2__) || defined(__FMU_R_V2_BETA__) || \
       defined(__FMU_R_MINI_V1__)
   TFMiniData tfmini;
+  TFMiniData tfmini2;
   ERCFData ercf;
   RadAltData rad_alt;
   #endif

@@ -58,14 +58,11 @@ SpaaroUbx ext_gnss1(&GNSS_UART);
 // SpaaroUbx ext_gnss2(&GNSS2_UART);
 
 #endif
-#if defined(__FMU_R_V2__) || defined(__FMU_R_V2_BETA__)
-SpaaroTFMini tfmini(&AUX_UART);
-SpaaroERCF ercf(&GNSS1_UART);
-SpaaroAinsteinUsd1 rad_alt(&GNSS2_UART); // Changed port for compatibility. Need to redo
-#elif defined(__FMU_R_MINI_V1__)
+#if defined(__FMU_R_MINI_V1__)
 SpaaroTFMini tfmini(&GNSS1_UART);
+SpaaroTFMini tfmini2(&GNSS2_UART);
 SpaaroERCF ercf(&AUX_UART);
-SpaaroAinsteinUsd1 rad_alt(&GNSS2_UART);
+// SpaaroAinsteinUsd1 rad_alt(&SBUS_UART);
 #endif
 SpaaroSbus incept(&SBUS_UART);
 /* Sensor calibration */
@@ -82,15 +79,14 @@ void SensorsInit(const SensorConfig &cfg) {
   ext_pres2.Init(cfg.ext_pres2);
   ext_pres3.Init(cfg.ext_pres3);
   ext_pres4.Init(cfg.ext_pres4);
-  #if defined(__FMU_R_V1__)
-  ext_gnss1.Init(cfg.ext_gnss1);
-  #elif defined(__FMU_R_V2__) || defined(__FMU_R_V2_BETA__) || \
+  #if defined(__FMU_R_V2__) || defined(__FMU_R_V2_BETA__) || \
         defined(__FMU_R_MINI_V1__)
   // ext_gnss1.Init(cfg.ext_gnss1);
   // ext_gnss2.Init(cfg.ext_gnss2);
+  // rad_alt.Init(cfg.rad_alt);
   tfmini.Init(cfg.tfmini);
+  tfmini2.Init(cfg.tfmini2);
   ercf.Init(cfg.ercf);
-  rad_alt.Init(cfg.rad_alt);
   #endif
   #if defined(__FMU_R_V2__) || defined(__FMU_R_MINI_V1__)
   PowerModuleInit(cfg.power_module);
@@ -132,11 +128,12 @@ void SensorsRead(SensorData * const data) {
 
   data->ext_gnss1.fix = 3;
   data->ext_gnss1.num_sats = 10;
-  data->ext_gnss1.lat_rad = 0.5797f;
-  data->ext_gnss1.lon_rad = -1.5279f;
+  data->ext_gnss1.lat_rad = 0.0f;
+  data->ext_gnss1.lon_rad = 0.0f;
   data->ext_gnss1.alt_wgs84_m = 0.0f;
   
   tfmini.Read(&data->tfmini);
+  tfmini2.Read(&data->tfmini2);
   ercf.Read(&data->ercf);
   #endif
   #if defined(__FMU_R_V2__) || defined(__FMU_R_MINI_V1__)
