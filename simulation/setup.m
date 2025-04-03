@@ -115,7 +115,7 @@ if (vms_only)
 
     elseif strcmp(vehicle,'torch')
 
-        torch_pos_x_tuner(); % Change this
+        torch_2dof_done(); % Change this
         
 
     end
