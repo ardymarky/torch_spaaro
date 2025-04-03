@@ -189,7 +189,7 @@ Aircraft.Control.I_att_rate = 0.1;
 Aircraft.Control.D_att_rate = 0.001;
 
 % Att rate D Controller LPFT cutoff frequency [Hz]
-Aircraft.Control.D_att_FLTR_CTOFF = 40;
+Aircraft.Control.D_att_FLTR_CTOFF = 10;
 
 % Att feed forward gain
 Aircraft.Control.FF_att_rate = 0.2;
